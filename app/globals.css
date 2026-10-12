@@ -1,0 +1,245 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* ---------------------------------------------------------------------- *
+ * Design tokens
+ *
+ * Palette: warm off-white page, white cards, a deep navy for structure and
+ * primary actions, one accent blue for emphasis and links, green for
+ * success/matches, amber for warnings, soft red for problems. Soft blue
+ * and soft green are tint surfaces only. Values marked "derived" are
+ * hover/contrast steps of a palette colour, not new hues.
+ * ---------------------------------------------------------------------- */
+
+:root {
+  --paper: #faf9f6;
+  --paper-raised: #ffffff;
+  --ink: #18202b;
+  --ink-muted: #647080;
+  --ink-faint: #8a94a2; /* derived: lighter secondary text */
+  --line: #dde2e8;
+  --line-strong: #c8d0da; /* derived: stronger border */
+
+  --brand: #10233f;
+  --brand-strong: #0a1729; /* derived: navy hover */
+  --brand-soft: #eaf1fa;
+
+  --accent-blue: #3566b8;
+  --blue-soft: #eaf1fa;
+  --success: #4faf73;
+  --success-soft: #eaf6ee;
+
+  --signal: #e7a83b;
+  --signal-soft: #fdf3e2; /* derived: amber tint */
+
+  --warn: #d96868;
+  --warn-soft: #fbeded; /* derived: red tint */
+
+  --shell: #10233f;
+  --shell-raised: #172f52; /* derived */
+  --shell-foreground: #faf9f6;
+  --shell-muted: #a9b6c7; /* derived: secondary text on navy */
+  --shell-line: #233b5e; /* derived */
+
+  /* Bridge tokens: the few remaining Base UI primitives (Input, Progress,
+     Separator, Sonner, and the not-yet-used Dropdown/Avatar/Tabs) expect
+     this shadcn-style semantic set. Mapped onto the palette above so they
+     render consistently with the hand-rolled shell components instead of
+     needing a parallel rewrite. */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: #ffffff;
+  --secondary: var(--paper-raised);
+  --secondary-foreground: var(--ink);
+  --muted: var(--line);
+  --muted-foreground: var(--ink-muted);
+  --accent: var(--brand-soft);
+  --accent-foreground: var(--brand-strong);
+  --destructive: var(--warn);
+  --border: var(--line);
+  --input: var(--line-strong);
+  --ring: var(--brand);
+  --radius: 0.3rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-instrument-serif);
+  --font-mono: var(--font-mono-face);
+
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+
+  --color-accent-blue: var(--accent-blue);
+  --color-blue-soft: var(--blue-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+
+  --color-signal: var(--signal);
+  --color-signal-soft: var(--signal-soft);
+
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+
+  --color-shell: var(--shell);
+  --color-shell-raised: var(--shell-raised);
+  --color-shell-foreground: var(--shell-foreground);
+  --color-shell-muted: var(--shell-muted);
+  --color-shell-line: var(--shell-line);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+html {
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+::selection {
+  background: var(--accent-blue);
+  color: #ffffff;
+}
+
+/* Tabular figures for every numeral used as data — scores, percentages,
+   counts. Keeps columns of numbers aligned without reaching for a
+   monospace face everywhere. */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------------- *
+ * Motion
+ *
+ * A single orchestrated entrance for the hero on first paint. Nothing
+ * else animates on scroll — hover/focus transitions on interactive
+ * elements only. Respects reduced-motion.
+ * ---------------------------------------------------------------------- */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes stamp-in {
+  0% {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ring-draw {
+  from {
+    stroke-dashoffset: var(--ring-circumference);
+  }
+  to {
+    stroke-dashoffset: var(--ring-offset);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-rise-in {
+    animation: rise-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-ring-draw {
+    animation: ring-draw 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-stamp-in {
+    animation: stamp-in 0.45s cubic-bezier(0.2, 0.8, 0.3, 1) 0.6s both;
+  }
+}
+
+/* Hero illustration: small objects drift apart and float while hovered.
+   The drift uses the `translate` property (Tailwind group-hover utilities);
+   the float uses `transform`, so the two combine instead of fighting. */
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .float-item {
+    animation: float-y var(--dur, 4s) ease-in-out var(--delay, 0s) infinite;
+    animation-play-state: paused;
+  }
+  .hero-stage:hover .float-item {
+    animation-play-state: running;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise-in,
+  .animate-ring-draw,
+  .animate-stamp-in,
+  .float-item {
+    animation: none !important;
+  }
+}
