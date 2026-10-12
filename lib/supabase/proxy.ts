@@ -1,7 +1,16 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/login", "/signup", "/forgot-password", "/auth", "/error", "/"];
+const PUBLIC_PATHS = [
+  "/login",
+  "/signup",
+  "/forgot-password",
+  "/auth",
+  "/error",
+  "/privacy",
+  "/terms",
+  "/",
+];
 // Pages that make no sense once logged in.
 const GUEST_ONLY_PATHS = ["/login", "/signup"];
 

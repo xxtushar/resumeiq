@@ -1,7 +1,7 @@
 export const NAV_LINKS = [
-  { label: "Example", href: "#example" },
-  { label: "Why it matters", href: "#product" },
-  { label: "How it works", href: "#how-it-works" },
+  { label: "Example", href: "/#example" },
+  { label: "Why it matters", href: "/#product" },
+  { label: "How it works", href: "/#how-it-works" },
 ] as const;
 
 export const HOW_IT_WORKS_STEPS = [
@@ -69,3 +69,14 @@ export const FEATURES = [
     size: "lg",
   },
 ] as const;
+
+// TODO before launch: replace with the real public contact address. It's
+// shown on the privacy policy and terms pages.
+export const CONTACT_EMAIL = "contact@example.com";
+
+// Bump whenever the privacy policy or terms change.
+export const LEGAL_LAST_UPDATED = "12 October 2026";
+
+/** Absolute site origin for metadata, robots and the sitemap. */
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3001";

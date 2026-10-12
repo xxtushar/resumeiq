@@ -123,3 +123,22 @@ tests/e2e/             Playwright
 - **Database/Auth/Storage**: Supabase cloud project — run the migration
   there too, and repeat the email template change in that project's
   dashboard.
+
+### Launch checklist
+
+Code-side items are done (privacy policy, terms, 404, robots/sitemap, icon,
+link-preview image). Before opening sign-ups to the public:
+
+1. **Contact email** — replace the `CONTACT_EMAIL` placeholder in
+   `lib/constants.ts`; it appears on `/privacy` and `/terms`.
+2. **Env vars on the host** — a real `ANTHROPIC_API_KEY`, and
+   `NEXT_PUBLIC_SITE_URL` set to the production URL.
+3. **Supabase → Authentication**
+   - URL Configuration: Site URL and Redirect URLs → the production domain.
+   - SMTP Settings: connect your own email provider (e.g. Resend). The
+     built-in sender is heavily rate-limited and often lands in spam.
+   - Password security: turn on leaked-password protection.
+   - Optional: Attack Protection → CAPTCHA, to slow scripted sign-ups that
+     would use up AI credit (needs matching app changes).
+4. **Legal review** — the privacy policy and terms are a plain-language
+   starting point, not legal advice; have them reviewed if you can.

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { SITE_URL } from "@/lib/constants";
 import "./globals.css";
 
 // Headings (700) and body/UI (400–500).
@@ -25,10 +26,21 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
+const TITLE = "ResumeIQ — See how recruiters see your resume";
+const DESCRIPTION =
+  "ResumeIQ analyzes your resume against any job description: match score, ATS compatibility, skill gaps, and specific edits to make before you hit send.";
+
 export const metadata: Metadata = {
-  title: "ResumeIQ — See how recruiters see your resume",
-  description:
-    "ResumeIQ analyzes your resume against any job description: match score, ATS compatibility, skill gaps, and specific edits to make before you hit send.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    siteName: "ResumeIQ",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

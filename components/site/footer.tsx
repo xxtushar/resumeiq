@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Logo } from "@/components/site/logo";
 
 const LINKS = [
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Example", href: "#example" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Example", href: "/#example" },
   { label: "Sign in", href: "/login" },
   { label: "Get started", href: "/signup" },
 ] as const;
@@ -36,7 +36,15 @@ export function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-2 border-t border-line pt-6 text-[13px] text-ink-faint sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} ResumeIQ</p>
+          <p className="flex flex-wrap gap-x-5 gap-y-2">
+            <span>© {new Date().getFullYear()} ResumeIQ</span>
+            <Link href="/privacy" className="transition-colors hover:text-brand">
+              Privacy
+            </Link>
+            <Link href="/terms" className="transition-colors hover:text-brand">
+              Terms
+            </Link>
+          </p>
           <p>
             Built by <span className="font-medium text-ink-muted">Tushar Singh</span>
           </p>

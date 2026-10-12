@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -20,6 +21,17 @@ export default function SignupPage() {
         </CardHeader>
         <CardContent>
           <AuthForm mode="signup" action={signup} />
+          <p className="mt-4 text-center text-[12.5px] text-ink-muted">
+            By creating an account, you agree to our{" "}
+            <Link href="/terms" className="underline">
+              Terms
+            </Link>{" "}
+            and{" "}
+            <Link href="/privacy" className="underline">
+              Privacy Policy
+            </Link>
+            .
+          </p>
         </CardContent>
       </Card>
     </div>
