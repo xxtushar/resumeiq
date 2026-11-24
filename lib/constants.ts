@@ -2,6 +2,7 @@ export const NAV_LINKS = [
   { label: "Example", href: "/#example" },
   { label: "Why it matters", href: "/#product" },
   { label: "How it works", href: "/#how-it-works" },
+  { label: "Resume builder", href: "/resume-builder" },
 ] as const;
 
 export const HOW_IT_WORKS_STEPS = [

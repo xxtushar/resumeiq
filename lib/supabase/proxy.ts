@@ -9,6 +9,8 @@ const PUBLIC_PATHS = [
   "/error",
   "/privacy",
   "/terms",
+  "/resume-builder",
+  "/api/builder/pdf",
   "/",
 ];
 // Pages that make no sense once logged in.

@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { getResume, getLatestVersion } from "@/lib/db/resumes";
 import { renderResumePdfBuffer } from "@/lib/pdf/resume-document";
+import { normalizeResume } from "@/lib/builder/schema";
+import { pdfFileName } from "@/lib/builder/format";
 
 export const runtime = "nodejs";
 
@@ -23,17 +25,15 @@ export async function GET(
   }
 
   const version = await getLatestVersion(supabase, userId, resumeId);
-  const sections = (version?.content ?? {}) as Record<
-    string,
-    { content: string }
-  >;
+  const doc = normalizeResume(version?.content);
 
-  const buffer = await renderResumePdfBuffer(resume.title, sections);
+  const buffer = await renderResumePdfBuffer(doc, resume.title);
 
   return new Response(new Uint8Array(buffer), {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="${resume.title.replace(/[^a-z0-9-_ ]/gi, "")}.pdf"`,
+      "Content-Disposition": `attachment; filename="${pdfFileName(doc, resume.title)}"`,
+      "Cache-Control": "no-store",
     },
   });
 }

@@ -5,7 +5,8 @@ export type BuilderSectionType =
   | "summary"
   | "experience"
   | "skills"
-  | "education";
+  | "education"
+  | "project";
 
 const SECTION_GUIDANCE: Record<BuilderSectionType, string> = {
   summary:
@@ -16,6 +17,8 @@ const SECTION_GUIDANCE: Record<BuilderSectionType, string> = {
     "Produce a concise, relevant skills list as bullets, grouped only if the input implies natural groupings.",
   education:
     "Write a clean one-line education entry (degree, institution, year) from the input.",
+  project:
+    "Write 2-4 resume bullet points for this project. Lead each with a strong action verb, name the key technologies where the input mentions them, and state the outcome (users, performance, scale) only where the input supports it — never invent numbers.",
 };
 
 const BUILDER_SYSTEM_PROMPT = `You are helping a job seeker draft their resume. Ground everything in the
@@ -55,7 +58,7 @@ export async function generateBuilderSection(
         bullets: {
           type: "array",
           items: { type: "string" },
-          description: "Individual bullet points, when the section is bulleted (experience, skills).",
+          description: "Individual bullet points, when the section is bulleted (experience, project, skills). Plain text, no leading bullet characters.",
         },
       },
       required: ["content"],

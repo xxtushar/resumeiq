@@ -110,9 +110,16 @@ tests/e2e/             Playwright
   the most similar chunks per requirement are passed to the model as
   evidence. Retrieval is best-effort — if embeddings fail, the analysis
   still runs on the full resume text.
-- **Builder**: four fixed sections (summary, experience, skills,
-  education), one PDF template. No section reordering or multiple resume
-  templates yet.
+- **Builder**: structured resume (contact, summary, experience, projects,
+  education, skills, certifications, achievements), one ATS template
+  rendered three ways from the same rules (`lib/builder/format.ts`): live
+  preview, `@react-pdf/renderer` PDF, and a plain-text "robot view". New
+  drafts start from a pre-filled sample (`lib/builder/default-resume.ts`)
+  that tests hold at an ATS score of 90+ on the deterministic content check
+  (`lib/builder/ats-checks.ts`). The public `/resume-builder` page works
+  without an account (draft kept in localStorage, PDF via the public
+  `/api/builder/pdf`); saving to an account and AI drafting need a login.
+  Drafts from the old four-textarea builder are migrated on load.
 - **File upload limit**: 5MB, PDF/DOCX/TXT only.
 - **No payments** — matches the current scope (auth without billing).
 

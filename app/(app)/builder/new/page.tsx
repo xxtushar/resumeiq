@@ -14,7 +14,8 @@ export default function NewBuilderDraftPage() {
         <CardHeader>
           <CardTitle>Start a new resume</CardTitle>
           <CardDescription>
-            Add your notes section by section and let AI draft the wording.
+            Starts from a sample resume that already scores 90+ on the ATS
+            check. Replace it with your details, section by section.
           </CardDescription>
         </CardHeader>
         <CardContent>

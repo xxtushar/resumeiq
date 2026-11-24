@@ -1,9 +1,9 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getResume, getLatestVersion } from "@/lib/db/resumes";
-import { buttonVariants } from "@/components/ui/button";
 import { ResumeTitle } from "@/components/resume-title";
-import { BuilderEditor, type EditorState } from "@/components/builder-editor";
+import { BuilderEditor } from "@/components/builder-editor";
+import { normalizeResume } from "@/lib/builder/schema";
 
 export default async function BuilderPage(
   props: PageProps<"/builder/[resumeId]">
@@ -15,30 +15,23 @@ export default async function BuilderPage(
 
   const resume = await getResume(supabase, userId, resumeId).catch(() => null);
   if (!resume) notFound();
+  if (resume.source !== "builder") redirect(`/analyze/${resume.id}`);
 
   const version = await getLatestVersion(supabase, userId, resumeId);
 
   return (
-    <div className="mx-auto flex max-w-[1100px] flex-col gap-6">
-      <div className="flex items-center justify-between gap-4">
+    <BuilderEditor
+      resumeId={resumeId}
+      initial={normalizeResume(version?.content)}
+      title={
         <ResumeTitle
           resumeId={resume.id}
           title={resume.title}
           hasFile={false}
           redirectOnDelete
-          titleClassName="font-display text-[1.5rem] text-ink"
+          titleClassName="font-display text-[1.5rem] leading-tight text-ink"
         />
-        <a
-          href={`/api/builder/${resumeId}/pdf`}
-          className={buttonVariants({ variant: "secondary" })}
-        >
-          Download PDF
-        </a>
-      </div>
-      <BuilderEditor
-        resumeId={resumeId}
-        initial={(version?.content as Partial<EditorState> | null) ?? {}}
-      />
-    </div>
+      }
+    />
   );
 }

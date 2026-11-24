@@ -6,7 +6,7 @@ import { consumeDailyAiCall, DailyLimitExceededError } from "@/lib/db/rate-limit
 import { MAX_JOB_DESCRIPTION_CHARS, MAX_SECTION_NOTES_CHARS } from "@/lib/ai/limits";
 
 const bodySchema = z.object({
-  section: z.enum(["summary", "experience", "skills", "education"]),
+  section: z.enum(["summary", "experience", "skills", "education", "project"]),
   input: z
     .string()
     .trim()
