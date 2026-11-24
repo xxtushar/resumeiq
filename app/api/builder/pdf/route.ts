@@ -3,8 +3,12 @@ import { z } from "zod";
 import { renderResumePdfBuffer } from "@/lib/pdf/resume-document";
 import { resumeDocSchema } from "@/lib/builder/schema";
 import { pdfFileName } from "@/lib/builder/format";
+import { clientIp, createRateLimiter } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
+
+// Public and CPU-heavy, so cap each IP at 10 PDFs a minute.
+const allowRequest = createRateLimiter(10, 60_000);
 
 // Generous for a full resume; the schema's own field limits cap it well below.
 const MAX_BODY_BYTES = 200_000;
@@ -17,6 +21,13 @@ const bodySchema = z.object({ content: resumeDocSchema });
  * nothing stored, just validated input in and a PDF out.
  */
 export async function POST(request: Request) {
+  if (!allowRequest(clientIp(request))) {
+    return NextResponse.json(
+      { error: "Too many PDF downloads. Wait a minute and try again." },
+      { status: 429, headers: { "Retry-After": "60" } }
+    );
+  }
+
   const raw = await request.text().catch(() => "");
   if (!raw || raw.length > MAX_BODY_BYTES) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
