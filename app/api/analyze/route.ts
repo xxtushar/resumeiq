@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { AI_DISABLED_MESSAGE, isAiEnabled } from "@/lib/ai/client";
 import {
   extractResumeText,
   resolveMimeType,
@@ -32,6 +33,10 @@ export async function POST(request: Request) {
 
   if (!userId) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
+
+  if (!isAiEnabled()) {
+    return NextResponse.json({ error: AI_DISABLED_MESSAGE }, { status: 503 });
   }
 
   const formData = await request.formData();

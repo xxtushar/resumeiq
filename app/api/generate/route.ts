@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { AI_DISABLED_MESSAGE, isAiEnabled } from "@/lib/ai/client";
 import { generateBuilderSection, type BuilderSectionType } from "@/lib/ai/generate";
 import { consumeDailyAiCall, DailyLimitExceededError } from "@/lib/db/rate-limit";
 import { MAX_JOB_DESCRIPTION_CHARS, MAX_SECTION_NOTES_CHARS } from "@/lib/ai/limits";
@@ -25,6 +26,10 @@ export async function POST(request: Request) {
 
   if (!userId) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
+
+  if (!isAiEnabled()) {
+    return NextResponse.json({ error: AI_DISABLED_MESSAGE }, { status: 503 });
   }
 
   const parsed = bodySchema.safeParse(await request.json().catch(() => null));

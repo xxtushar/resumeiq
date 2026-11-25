@@ -3,6 +3,14 @@ import type { z } from "zod";
 
 export const CLAUDE_MODEL = "claude-sonnet-5";
 
+/** AI runs only when the server has a Claude key; without one the routes say so up front. */
+export const AI_DISABLED_MESSAGE =
+  "AI features are turned off in this demo. The resume builder and PDF download still work.";
+
+export function isAiEnabled(): boolean {
+  return Boolean(process.env.ANTHROPIC_API_KEY);
+}
+
 let client: Anthropic | undefined;
 
 function getClient(): Anthropic {

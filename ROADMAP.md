@@ -62,7 +62,7 @@ Must do:
 - [ ] Supabase → Auth → Email: turn off "Confirm email" (you)
 - [ ] Supabase → Auth → URL Configuration: Site URL + redirect URL (you)
 - [ ] Send the real contact email for Privacy/Terms (you → Claude swaps it)
-- [ ] Show "AI analysis is off in this demo" instead of a failure (Claude)
+- [x] Show "AI analysis is off in this demo" instead of a failure (Claude)
 - [ ] Sign up once on the live site and click through every page (you + Claude)
 
 Nice to have (skip if short on time):
